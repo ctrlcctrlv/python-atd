@@ -15,10 +15,11 @@ Simple usage example
 
 ```
 from atd import atd
+import datetime
 
 print 'Create some jobs...'
 job1 = atd.at("echo lol >> /tmp/lolol", datetime.datetime.now() + 
-datetime.timedelta(minutes = 2))
+	datetime.timedelta(minutes = 2))
 job2 = atd.at("rm /tmp/lolol", datetime.timedelta(minutes=5))
 
 print "Job 1: {0}".format(job1)
@@ -32,22 +33,13 @@ atq = atd.AtQueue()
 print [str(job) for job in atq.jobs]
 
 print 'Cancel all our jobs.'
-print [atrm(job) for job in atq.jobs]
+print [atd.atrm(job) for job in atq.jobs]
 
 print 'Refresh the AtQueue...'
 atq.refresh()
 
 print 'Poof!'
 print [str(job) for job in atq.jobs]
-
-#print 'All right, let\'s have some more fun. Performance test, create'+\
-#' 1,024 jobs.'
-
-#for i in xrange(1,1024):
-#at("echo lol >> /tmp/lolol", "now + 24 hours")
-
-#print 'Created 1,024 jobs.'
-
 ```
 
 Submodules
