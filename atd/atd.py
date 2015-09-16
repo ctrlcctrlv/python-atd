@@ -36,17 +36,28 @@ def at(command, when, queue = 'a'):
         when may be a datetime.timedelta, a datetime.datetime or a timespec str.
         If a string is provided, it is assumed that it's a valid timespec. See 
         `timespec` doc in `at`'s documentation. """
+
+    # First build our timespec for `at`...
     posix_time = False
+    # Since timespecs aren't validated/parsed, we can only easily check datetime
+    check_past = False
     if isinstance(when, datetime.datetime):
         timespec = convert_datetime(when)
         posix_time = True
+        check_past = True
     elif isinstance(when, datetime.timedelta):
         timespec = convert_timedelta(when)
+        check_past = True
     elif isinstance(when, basestring):
         timespec = when # TODO: Validate timespec?
     else:
         raise NotImplementedError('I don\'t support the class you pass'+
                 'ed to schedule(). Try the builtin datetime.')
+
+    if check_past:
+        if (when < datetime.datetime.now()):
+            raise ValueError('`when` must be at a time in the future, never in'+
+                ' the past')
 
     # Build our `at` command line arguments...
     atargs = list([config.at_binary])
@@ -79,6 +90,7 @@ def at(command, when, queue = 'a'):
     (at_stdout, at_stderr) = sp.communicate()
     at_stdin.close()
 
+    # Build our AtJob object for user consumption...
     atjob = AtJob()
     atjob.from_at_stderr(at_stderr)
     atjob.command = command
