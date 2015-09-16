@@ -2,7 +2,60 @@
 atd package
 ===========
 
-`atd` 
+`at` is the companion of `cron`. While `cron` says "execute command every 5
+minutes", `at` says, "execute command once at exactly 2:00 PM". `at` is the
+original Unix scheduler. 
+
+This Python module aims to support all `at` operations in a safe way.
+
+After installing with `python2 setup.py install`, it's recommended to run the
+tests to make sure `at` is configured properly.
+
+Simple usage example
+====================
+
+::
+    from atd import atd
+
+    print 'Create some jobs...'
+    job1 = atd.at("echo lol >> /tmp/lolol", datetime.datetime.now() + 
+            datetime.timedelta(minutes = 2))
+    job2 = atd.at("rm /tmp/lolol", datetime.timedelta(minutes=5))
+
+    print "Job 1: {0}".format(job1)
+    print "Job 2: {0}".format(job2)
+
+    print 'All right, free up those vars...'
+    del job1; del job2
+
+    print 'Check our atd queue for our jobs (`atq`)'
+    atq = atd.AtQueue()
+    print [str(job) for job in atq.jobs]
+
+    print 'Cancel all our jobs.'
+    print [atrm(job) for job in atq.jobs]
+
+    print 'Refresh the AtQueue...'
+    atq.refresh()
+
+    print 'Poof!'
+    print [str(job) for job in atq.jobs]
+
+    #print 'All right, let\'s have some more fun. Performance test, create'+\
+        #' 1,024 jobs.'
+
+    #for i in xrange(1,1024):
+        #at("echo lol >> /tmp/lolol", "now + 24 hours")
+
+    #print 'Created 1,024 jobs.'
+
+    #atq.refresh()
+
+    #print 'Counted {0} jobs.'.format(len(atq.jobs))
+
+    #for job in atq.jobs: atrm(job)
+
+    #print 'Deleted {0} jobs.'.format(len(atq.jobs))
 
 
 Submodules
