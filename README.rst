@@ -2,6 +2,8 @@
 atd package
 ===========
 
+`atd` 
+
 
 Submodules
 ==========
@@ -20,7 +22,7 @@ at(command, when, queue='a')
 
    when may be a datetime.timedelta, a datetime.datetime or a timespec
    str. If a string is provided, it is assumed that it's a valid
-   timespec. See  *timespec* doc in *at*'s documentation.
+   timespec. See  *timespec* doc in `at`'s documentation.
 
 atrm(*atjobs)
 
@@ -34,27 +36,27 @@ clear()
 
 convert_datetime(dt)
 
-   Convert a datetime object to a POSIX timestamp usable by *at*. It
+   Convert a datetime object to a POSIX timestamp usable by `at`. It
    returns a string.
 
-   From the *at* manual: -t      Specify the job time using the POSIX
+   From the `at` manual: -t      Specify the job time using the POSIX
    time format.  The argument should be in the form
    [[CC]YY]MMDDhhmm[.SS].
 
 convert_timedelta(td)
 
-   Convert a timedelta object to a timespec usable by *at*. Note that
-   *at* does not understand seconds, so extra seconds are rounded
+   Convert a timedelta object to a timespec usable by `at`. Note that
+   `at` does not understand seconds, so extra seconds are rounded
    down.
 
 get_allowed_users()
 
-   Get a list() of all users allowed to use *at*, or raise an OSError
+   Get a list() of all users allowed to use `at`, or raise an OSError
    if we can't determine it for some reason.
 
 get_denied_users()
 
-   Get a list() of all users disallowed from *at*, or raise an OSError
+   Get a list() of all users disallowed from `at`, or raise an OSError
    if  we can't determine it for some reason.
 
 
@@ -67,7 +69,7 @@ class class atq.AtJob(jobid=0, load=False)
 
    from_at_stderr(stderr)
 
-      Called by at(), it creates an AtJob from *at*'s stderr.
+      Called by at(), it creates an AtJob from `at`'s stderr.
 
    load()
 
@@ -80,7 +82,7 @@ class class atq.AtQueue(queue=False)
 
    Bases: "object"
 
-   The AtQueue class represents the state of the *at* queue at the
+   The AtQueue class represents the state of the `at` queue at the
    time  when it was initialized. Jobs are stored as a list in
    AtQueue.jobs.
 
@@ -91,7 +93,7 @@ class class atq.AtQueue(queue=False)
 
    refresh()
 
-      Refresh this AtQueue, reading from *atq* again. This is
+      Refresh this AtQueue, reading from `atq` again. This is
       automatically called on instantiation. self.jobs becomes a list
       of AtJob objects.
 
