@@ -14,7 +14,7 @@ at(command, when, queue='a')
 
    Execute command at when.
 
-   command may be anything interpreble by /bin/sh. If you need
+   command may be anything interpretable by /bin/sh. If you need
    features specific to another shell, create a script and then make
    the command <path to shell> <path to script>.
 
@@ -55,7 +55,7 @@ get_allowed_users()
 get_denied_users()
 
    Get a list() of all users disallowed from *at*, or raise an OSError
-   if  we can't determine it for some reason.
+   if we can't determine it for some reason.
 
 
 atq module
@@ -81,7 +81,7 @@ class class atq.AtQueue(queue=False)
    Bases: "object"
 
    The AtQueue class represents the state of the *at* queue at the
-   time  when it was initialized. Jobs are stored as a list in
+   time when it was initialized. Jobs are stored as a list in
    AtQueue.jobs.
 
    find_job_by_id(id)
