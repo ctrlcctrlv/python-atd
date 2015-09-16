@@ -23,7 +23,7 @@ import re
 import json
 
 # Submodules #
-from atq import AtQueue, AtJob
+from atq import AtQueue, AtJob, _validate_queue
 import config
 
 def at(command, when, queue = 'a'):
@@ -61,6 +61,9 @@ def at(command, when, queue = 'a'):
     elif config.never_send_mail:
         atargs.append('-M')
 
+    atargs.append('-q')
+    atargs.append(queue)
+
     # Prevent creation of a needless subprocess by using a temporary file.
     # StringIO cannot be used due to Popen's use of fileno().
     at_stdin = tempfile.TemporaryFile()
@@ -80,6 +83,7 @@ def at(command, when, queue = 'a'):
     atjob.from_at_stderr(at_stderr)
     atjob.command = command
     atjob.when = when
+    atjob.queue = queue
     atjob.who = os.getenv("LOGNAME")
 
     return atjob
@@ -119,9 +123,6 @@ def _enumerate_users(filename):
     fd.close()
 
     return [user.strip() for user in users]
-
-def _validate_queue(queue):
-    return queue
 
 def get_allowed_users():
     """ Get a list() of all users allowed to use `at`, or raise an OSError if we

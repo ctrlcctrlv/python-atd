@@ -16,12 +16,22 @@ from subprocess import check_output
 import datetime
 import re
 import json
+import string
 
 # Submodules #
 import config
 
 AT_OUTPUT_DATETIME_FORMAT = '%a %b %d %H:%M:%S %Y'
 AT_OUTPUT_DATETIME_FORMAT_BSD = '%a %b %d %H:%M:%S %Z %Y'
+
+def _validate_queue(queue):
+    valid = (len(queue) == 1 and queue in (string.ascii_lowercase + \
+            string.ascii_uppercase))
+
+    if valid: 
+        return queue
+    else:
+        raise ValueError('Invalid queue. Queues must match regex ^[A-Za-z]$')
 
 class AtQueue(object):
     """ The AtQueue class represents the state of the `at` queue at the time 
@@ -58,8 +68,14 @@ class AtQueue(object):
         """ Refresh this AtQueue, reading from `atq` again.
             This is automatically called on instantiation.
             self.jobs becomes a list of AtJob objects. """
-        atq_out = self.raw = check_output('atq')
-        atqlines = atq_out.splitlines()        
+        if self.queue: 
+            _validate_queue(self.queue)
+            atq_args = ['atq', '-q', self.queue]
+        else:
+            atq_args = ['atq']
+
+        atq_out = self.raw = check_output(atq_args)
+        atqlines = atq_out.splitlines()
 
         atqueue = list()
         
