@@ -47,6 +47,7 @@ def at(command, when, queue = 'a'):
         check_past = True
     elif isinstance(when, datetime.timedelta):
         timespec = convert_timedelta(when)
+        when = datetime.datetime.now() + when
         check_past = True
     elif isinstance(when, basestring):
         timespec = when # TODO: Validate timespec?
@@ -163,7 +164,10 @@ def convert_datetime(dt):
 def convert_timedelta(td):
     """ Convert a timedelta object to a timespec usable by `at`. Note that
     `at` does not understand seconds, so extra seconds are rounded down. """
-    return 'now + {0} minutes'.format((td.seconds // 60))
+    total_seconds = (td.microseconds / 1000000) + (td.days * 24 * 60 * 60) + \
+        td.seconds
+
+    return 'now + {0} minutes'.format((total_seconds // 60))
 
 # Just some fun examples of how the module works...
 if __name__ == "__main__":
