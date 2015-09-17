@@ -28,10 +28,7 @@ class TimeConversionTests(unittest.TestCase):
         td2 = datetime.timedelta(seconds = 120)
         td3 = datetime.timedelta(days = -1)
 
-        # Improper English yet still understood by both versions of `at` ;-)
-        # BSD `at` prints "at: pluralization is wrong" to stderr while GNU `at`
-        # just ignores it.
-        self.assertEqual(atd.convert_timedelta(td), 'now + 1 minutes')
+        self.assertEqual(atd.convert_timedelta(td), 'now + 1 minute')
 
         self.assertEqual(atd.convert_timedelta(td2), 'now + 2 minutes')
 

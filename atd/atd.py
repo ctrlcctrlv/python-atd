@@ -167,7 +167,11 @@ def convert_timedelta(td):
     total_seconds = (td.microseconds / 1000000) + (td.days * 24 * 60 * 60) + \
         td.seconds
 
-    return 'now + {0} minutes'.format((total_seconds // 60))
+    total_minutes = total_seconds // 60
+
+    plural = (abs(total_minutes) > 1)
+
+    return 'now + {0} minute{1}'.format(total_minutes, 's' if plural else '')
 
 # Just some fun examples of how the module works...
 if __name__ == "__main__":
