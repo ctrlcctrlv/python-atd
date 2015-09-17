@@ -59,15 +59,24 @@ at(command, when, queue='a')
 > when may be a datetime.timedelta, a datetime.datetime or a timespec str. If a
 > string is provided, it is assumed that it's a valid timespec. See *timespec*
 > doc in at's documentation.
+> 
+> python-atd also has good support for named queues. Both GNU and BSD at
+> support the concept of named queues, which allow you to easily separate
+> different types of jobs based on type.For example, if you owned a bank, you'd
+> have different types of jobs. Check clearing might go in queue "c" 24 hours
+> after request, while international wire clearing would go in queue "i" 48
+> hours after request. An unfortunate limitation of at is that all jobs can
+> only be one letter, A-Z or a-z. This means there are only 52 available queues
+> in both BSD at and GNU at.
 
 atrm(\*atjobs)
 
 > Cancel one or more AtJobs. Takes an AtJob instance returned by at(). You may
 > also choose to save the at job ID in a database, and pass its ID to cancel().
 
-clear()
+clear(queue = False)
 
-> Cancel all atjobs.
+> Cancel all atjobs. You may also specify a queue.
 
 convert\_datetime(dt)
 

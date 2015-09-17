@@ -39,7 +39,7 @@ class AtQueue(object):
     def __init__(self, queue = False):
         """ AtQueue gets you a list of all jobs currently in the queue. Jobs 
             fall out of the queue as they are executed or canceled by you. """
-        self.queue = queue
+        self.queue = _validate_queue(queue) if queue else False
         self.bsd = False
         self.refresh()
 

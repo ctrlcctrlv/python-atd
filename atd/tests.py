@@ -11,7 +11,7 @@
 # is working as expected.                                                      #
 ################################################################################
 
-import atd
+import atd, atq
 import unittest
 import datetime
 
@@ -35,6 +35,46 @@ class TimeConversionTests(unittest.TestCase):
         self.assertEqual(atd.convert_timedelta(td3), 'now + -1440 minutes')
 
         print "Success: Timedelta conversion"
+
+class QueueTests(unittest.TestCase):
+    def test_at_queue_validity(self):
+        valid = atq._validate_queue
+
+        self.assertRaises(ValueError, atq._validate_queue, 'aa')
+        self.assertRaises(ValueError, atq._validate_queue, '1')
+        self.assertRaises(ValueError, atq._validate_queue, u'\u2022')
+
+        # This one is a trick question ... "=" is technically a valid queue,
+        # but only in GNU at. It stands for the currently running queue, which
+        # means that in either version it should not be allowed to assign jobs
+        # to it.
+        self.assertRaises(ValueError, atq._validate_queue, '=')
+
+        self.assertEqual('Q', atq._validate_queue('Q'))
+
+    def test_at_queue_schedule(self):
+        # Clear both atq Q and atq U
+        atd.clear('Q')
+        atd.clear('U')
+
+        for q in ['Q', 'U']:
+            for i in xrange(0, 5):
+                atd.at("echo", "now + 24 hours", queue = q)
+
+        atq = atd.AtQueue('Q')
+        atq2 = atd.AtQueue('U')
+
+        self.assertEqual(len(atq.jobs), len(atq2.jobs))
+        self.assertEqual(len(atq.jobs), 5)
+        self.assertEqual(atq2.jobs[0].command, 'echo')
+
+        atd.clear('Q')
+        atd.clear('U')
+
+        atq.refresh(); atq2.refresh()
+
+        self.assertEqual(len(atq.jobs), len(atq2.jobs))
+        self.assertEqual(len(atq.jobs), 0)
 
 class ScheduleTests(unittest.TestCase):
     def test_at_cancel(self):

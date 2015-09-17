@@ -35,7 +35,16 @@ def at(command, when, queue = 'a'):
 
         when may be a datetime.timedelta, a datetime.datetime or a timespec str.
         If a string is provided, it is assumed that it's a valid timespec. See 
-        `timespec` doc in `at`'s documentation. """
+        `timespec` doc in `at`'s documentation.
+
+        python-atd also has good support for named queues. Both GNU and BSD at 
+        support the concept of named queues, which allow you to easily separate 
+        different types of jobs based on type. For example, if you owned a bank,
+        you'd have different types of jobs. Check clearing might go in queue "c"
+        24 hours after request, while international wire clearing would go in 
+        queue "i" 48 hours after request. An unfortunate limitation of `at` is 
+        that all jobs can only be one letter, A-Z or a-z. This means there are 
+        only 52 available queues in both BSD at and GNU at. """
 
     # First build our timespec for `at`...
     posix_time = False
@@ -110,10 +119,11 @@ def atrm(*atjobs):
 
     return (check_call(atrm_args) == 0)
 
-def clear():
+def clear(queue = False):
     """ Cancel all atjobs. """
-    atjobs = AtQueue().jobs
-    atrm(*atjobs)
+    atjobs = AtQueue(queue).jobs
+    if not atjobs: return True # No jobs, queue already clear.
+    return atrm(*atjobs)
 
 def _can_read_file(self, filename):
     """ On many installations, at.allow and at.deny are not readable by non-root
