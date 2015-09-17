@@ -147,7 +147,7 @@ class AtJob(object):
         attrs_in_atq = ['when', 'who', 'queue']
 
         if name in attrs_in_atq:
-            atq = atqueue.AtQueue()
+            atq = AtQueue()
             job = atq.find_job_by_id(self.id)
             for k in attrs_in_atq:
                 setattr(self, k, getattr(job, k))
