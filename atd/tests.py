@@ -21,7 +21,7 @@ class TimeConversionTests(unittest.TestCase):
 
         self.assertEqual(atd.convert_datetime(dt), '201509161708.22')
 
-        print "Success: Datetime conversion"
+        print("Success: Datetime conversion")
 
     def test_timedelta(self):
         td = datetime.timedelta(seconds = 60)
@@ -34,7 +34,7 @@ class TimeConversionTests(unittest.TestCase):
 
         self.assertEqual(atd.convert_timedelta(td3), 'now + -1440 minutes')
 
-        print "Success: Timedelta conversion"
+        print("Success: Timedelta conversion")
 
 class QueueTests(unittest.TestCase):
     def test_at_queue_validity(self):
@@ -82,18 +82,18 @@ class ScheduleTests(unittest.TestCase):
 
         self.assertGreater(job.id, 0)
 
-        print "Success: Created atjob {}".format(job.id)
+        print("Success: Created atjob {}".format(job.id))
 
         # Test if we can find our job again by command in `atq`
-	atq = atd.AtQueue()
+        atq = atd.AtQueue()
 
         n_jobs = len(atq.jobs)
-    
+
         # We should have at least one job in the queue since we just created
         # one above ...
-        self.assertGreater(n_jobs, 0) 
+        self.assertGreater(n_jobs, 0)
 
-        print "Success: At least one job in queue ({} jobs)".format(n_jobs)
+        print("Success: At least one job in queue ({} jobs)".format(n_jobs))
 
         our_job = None
         for j in atq.jobs:
@@ -103,13 +103,13 @@ class ScheduleTests(unittest.TestCase):
         self.assertIsNotNone(our_job)
         self.assertEqual(our_job.id, job.id)
 
-        print "Success: Found our job again. Job #{}".format(our_job.id)
+        print("Success: Found our job again. Job #{}".format(our_job.id))
 
         result = atd.atrm(our_job)
-        
+
         self.assertTrue(result)
 
-        print "Success: Deleted our job"
+        print("Success: Deleted our job")
 
 class NoNullAtJobComparisonTest(unittest.TestCase):
     def test_null_atjob_comparison(self):
@@ -117,7 +117,7 @@ class NoNullAtJobComparisonTest(unittest.TestCase):
         atj2 = atd.AtJob(0)
 
         self.assertNotEqual(atj1, atj2)
-        print "Success: Null atjobs not equal"
+        print("Success: Null atjobs not equal")
 
 if __name__ == '__main__':
     unittest.main()
