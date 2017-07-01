@@ -58,7 +58,7 @@ def at(command, when, queue = 'a'):
         timespec = convert_timedelta(when)
         when = datetime.datetime.now() + when
         check_past = True
-    elif isinstance(when, basestring):
+    elif isinstance(when, str):
         timespec = when # TODO: Validate timespec?
     else:
         raise NotImplementedError('I don\'t support the class you pass'+
@@ -87,7 +87,7 @@ def at(command, when, queue = 'a'):
 
     # Prevent creation of a needless subprocess by using a temporary file.
     # StringIO cannot be used due to Popen's use of fileno().
-    at_stdin = tempfile.TemporaryFile()
+    at_stdin = tempfile.TemporaryFile('w')
     at_stdin.write(command)
     at_stdin.seek(0)
 

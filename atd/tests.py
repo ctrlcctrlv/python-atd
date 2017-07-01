@@ -28,11 +28,11 @@ class TimeConversionTests(unittest.TestCase):
         td2 = datetime.timedelta(seconds = 120)
         td3 = datetime.timedelta(days = -1)
 
-        self.assertEqual(atd.convert_timedelta(td), 'now + 1 minute')
+        self.assertEqual(atd.convert_timedelta(td), 'now + 1.0 minute')
 
-        self.assertEqual(atd.convert_timedelta(td2), 'now + 2 minutes')
+        self.assertEqual(atd.convert_timedelta(td2), 'now + 2.0 minutes')
 
-        self.assertEqual(atd.convert_timedelta(td3), 'now + -1440 minutes')
+        self.assertEqual(atd.convert_timedelta(td3), 'now + -1440.0 minutes')
 
         print("Success: Timedelta conversion")
 
@@ -58,7 +58,7 @@ class QueueTests(unittest.TestCase):
         atd.clear('U')
 
         for q in ['Q', 'U']:
-            for i in xrange(0, 5):
+            for i in range(0, 5):
                 atd.at("echo", "now + 24 hours", queue = q)
 
         atq = atd.AtQueue('Q')
@@ -66,7 +66,7 @@ class QueueTests(unittest.TestCase):
 
         self.assertEqual(len(atq.jobs), len(atq2.jobs))
         self.assertEqual(len(atq.jobs), 5)
-        self.assertEqual(atq2.jobs[0].command, 'echo')
+        self.assertEqual(atq2.jobs[0].command.decode("utf-8"), 'echo')
 
         atd.clear('Q')
         atd.clear('U')
