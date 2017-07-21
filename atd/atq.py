@@ -45,7 +45,7 @@ class AtQueue(object):
 
     def _atq_line(self, line):
         """ Parse one line of `atq` output. """
-        split = line.split()
+        split = str(line).split()
         return dict(id = int(split[0]), 
             when = datetime.datetime.strptime(
                 (' ').join(split[1:6]),
@@ -75,7 +75,7 @@ class AtQueue(object):
             atq_args = ['atq']
 
         atq_out = self.raw = check_output(atq_args)
-        atqlines = atq_out.splitlines()
+        atqlines = atq_out.decode("utf-8").splitlines()
 
         atqueue = list()
         
@@ -91,7 +91,7 @@ class AtQueue(object):
                 parsed = self._atq_line(line)
 
             atjob = AtJob()
-            for k, v in parsed.iteritems():
+            for k, v in parsed.items():
                 setattr(atjob, k, v)
             atqueue.append(atjob)
 
@@ -189,6 +189,7 @@ class AtJob(object):
     def from_at_stderr(self, stderr):
         """ Called by atd.at(), it creates an AtJob from `at`'s stderr. """
         self.raw_stderr = stderr
+        stderr = stderr.decode("utf-8")
         match = re.match('.*job (?P<atjob_id>\d+).*', stderr, re.M|re.S)
 
         if not match:
@@ -196,6 +197,6 @@ class AtJob(object):
             ' support your version of at. Please open an issue. '+
             'stderr: {0}'.format(stderr))
 
-        atjob_id = self.id = long(match.group('atjob_id'))
+        atjob_id = self.id = int(match.group('atjob_id'))
         return atjob_id
 

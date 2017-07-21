@@ -27,23 +27,23 @@ from atq import AtQueue, AtJob, _validate_queue
 import config
 
 def at(command, when, queue = 'a'):
-    """ Execute command at when. 
+    """ Execute command at when.
 
         command may be anything interpreble by /bin/sh. If you need features
         specific to another shell, create a script and then make the command
         <path to shell> <path to script>.
 
         when may be a datetime.timedelta, a datetime.datetime or a timespec str.
-        If a string is provided, it is assumed that it's a valid timespec. See 
+        If a string is provided, it is assumed that it's a valid timespec. See
         `timespec` doc in `at`'s documentation.
 
-        python-atd also has good support for named queues. Both GNU and BSD at 
-        support the concept of named queues, which allow you to easily separate 
+        python-atd also has good support for named queues. Both GNU and BSD at
+        support the concept of named queues, which allow you to easily separate
         different types of jobs based on type. For example, if you owned a bank,
         you'd have different types of jobs. Check clearing might go in queue "c"
-        24 hours after request, while international wire clearing would go in 
-        queue "i" 48 hours after request. An unfortunate limitation of `at` is 
-        that all jobs can only be one letter, A-Z or a-z. This means there are 
+        24 hours after request, while international wire clearing would go in
+        queue "i" 48 hours after request. An unfortunate limitation of `at` is
+        that all jobs can only be one letter, A-Z or a-z. This means there are
         only 52 available queues in both BSD at and GNU at. """
 
     # First build our timespec for `at`...
@@ -58,7 +58,7 @@ def at(command, when, queue = 'a'):
         timespec = convert_timedelta(when)
         when = datetime.datetime.now() + when
         check_past = True
-    elif isinstance(when, basestring):
+    elif isinstance(when, str):
         timespec = when # TODO: Validate timespec?
     else:
         raise NotImplementedError('I don\'t support the class you pass'+
@@ -72,7 +72,7 @@ def at(command, when, queue = 'a'):
     # Build our `at` command line arguments...
     atargs = list([config.at_binary])
     queue = _validate_queue(queue)
-    if posix_time: 
+    if posix_time:
         atargs.append('-t')
 
     atargs.extend(timespec.split(" "))
@@ -87,7 +87,7 @@ def at(command, when, queue = 'a'):
 
     # Prevent creation of a needless subprocess by using a temporary file.
     # StringIO cannot be used due to Popen's use of fileno().
-    at_stdin = tempfile.TemporaryFile()
+    at_stdin = tempfile.TemporaryFile('w')
     at_stdin.write(command)
     at_stdin.seek(0)
 
@@ -96,7 +96,7 @@ def at(command, when, queue = 'a'):
     if not config.inherit_env:
         atkwargs['env'] = config.atjob_environment
 
-    sp = Popen(atargs, **atkwargs) 
+    sp = Popen(atargs, **atkwargs)
     (at_stdout, at_stderr) = sp.communicate()
     at_stdin.close()
 
@@ -136,7 +136,7 @@ def _can_read_file(self, filename):
         'command `chown 644 {0}` as root.').format(filename)
 
 def _enumerate_users(filename):
-    """ Enumerate users in a at.allow or at.deny file, and return them as a 
+    """ Enumerate users in a at.allow or at.deny file, and return them as a
         list() for the user. """
     if not _can_read_file(filename): # No file there
             return []
@@ -153,19 +153,19 @@ def get_allowed_users():
     return _enumerate_users(config.at_allow_file)
 
 def get_denied_users():
-    """ Get a list() of all users disallowed from `at`, or raise an OSError if 
+    """ Get a list() of all users disallowed from `at`, or raise an OSError if
         we can't determine it for some reason. """
     return _enumerate_users(config.at_deny_file)
 
 def convert_datetime(dt):
-    """ Convert a datetime object to a POSIX timestamp usable by `at`. It 
+    """ Convert a datetime object to a POSIX timestamp usable by `at`. It
         returns a string.
 
         From the `at` manual:
         -t      Specify the job time using the POSIX time format.  The
         argument should be in the form [[CC]YY]MMDDhhmm[.SS]. """
     if dt.year >= 2038 and (2**64 / 2) - 1 != long(sys.maxsize):
-        raise RuntimeWarning('Year >= 2038 detected on system running 32 bit '+ 
+        raise RuntimeWarning('Year >= 2038 detected on system running 32 bit '+
         'Python. `at` has undefined behavior with years >= 2038. Please make '+
         'sure your system is 64bit, even if your Python binary isn\'t.')
 
@@ -185,29 +185,29 @@ def convert_timedelta(td):
 
 # Just some fun examples of how the module works...
 if __name__ == "__main__":
-    print 'Create some jobs...'
-    job1 = at("echo lol >> /tmp/lolol", datetime.datetime.now() + 
+    print('Create some jobs...')
+    job1 = at("echo lol >> /tmp/lolol", datetime.datetime.now() +
             datetime.timedelta(minutes = 2))
     job2 = at("rm /tmp/lolol", datetime.timedelta(minutes=5))
 
-    print "Job 1: {0}".format(job1)
-    print "Job 2: {0}".format(job2)
+    print("Job 1: {0}".format(job1))
+    print("Job 2: {0}".format(job2))
 
-    print 'All right, free up those vars...'
+    print('All right, free up those vars...')
     del job1; del job2
 
-    print 'Check our atd queue for our jobs (`atq`)'
+    print('Check our atd queue for our jobs (`atq`)')
     atq = AtQueue()
-    print [str(job) for job in atq.jobs]
+    print([str(job) for job in atq.jobs])
 
-    print 'Cancel all our jobs.'
-    print [atrm(job) for job in atq.jobs]
+    print('Cancel all our jobs.')
+    print([atrm(job) for job in atq.jobs])
 
-    print 'Refresh the AtQueue...'
+    print('Refresh the AtQueue...')
     atq.refresh()
 
-    print 'Poof!'
-    print [str(job) for job in atq.jobs]
+    print('Poof!')
+    print([str(job) for job in atq.jobs])
 
     #print 'All right, let\'s have some more fun. Performance test, create'+\
         #' 1,024 jobs.'
