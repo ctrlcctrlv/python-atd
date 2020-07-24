@@ -7,8 +7,10 @@ scheduler.
 
 This Python module aims to support all at operations in a safe way.
 
-After installing with python2 setup.py install, it's recommended to run the
+After installing with `python setup.py install`, it's recommended to run the
 tests to make sure at is configured properly.
+
+Supports Python 2 and Python 3.
 
 Simple usage example
 ====================
@@ -17,28 +19,28 @@ Simple usage example
 from atd import atd
 import datetime
 
-print 'Create some jobs...'
+print('Create some jobs...')
 job1 = atd.at("echo lol >> /tmp/lolol", datetime.datetime.now() + 
 	datetime.timedelta(minutes = 2))
 job2 = atd.at("rm /tmp/lolol", datetime.timedelta(minutes=5))
 
-print "Job 1: {0}".format(job1)
-print "Job 2: {0}".format(job2)
+print("Job 1: {0}".format(job1))
+print("Job 2: {0}".format(job2))
 
-print 'All right, free up those vars...'
+print('All right, free up those vars...')
 del job1; del job2
 
-print 'Check our atd queue for our jobs (`atq`)'
+print('Check our atd queue for our jobs (`atq`)')
 atq = atd.AtQueue()
 print [str(job) for job in atq.jobs]
 
-print 'Cancel all our jobs.'
+print('Cancel all our jobs.')
 print [atd.atrm(job) for job in atq.jobs]
 
-print 'Refresh the AtQueue...'
+print('Refresh the AtQueue...')
 atq.refresh()
 
-print 'Poof!'
+print('Poof!')
 print [str(job) for job in atq.jobs]
 ```
 
