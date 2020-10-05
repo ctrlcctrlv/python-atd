@@ -15,7 +15,7 @@ Supports Python 2 and Python 3.
 Simple usage example
 ====================
 
-```
+```python3
 from atd import atd
 import datetime
 
