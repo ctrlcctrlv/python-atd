@@ -11,7 +11,7 @@
 ################################################################################
 ## Written by Fredrick Brennan <admin@8chan.co>. Expat License - See LICENSE. ##
 ################################################################################
-
+from __future__ import absolute_import
 from subprocess import check_output
 import datetime
 import re
@@ -19,7 +19,7 @@ import json
 import string
 
 # Submodules #
-import config
+from atd import config
 
 AT_OUTPUT_DATETIME_FORMAT = '%a %b %d %H:%M:%S %Y'
 AT_OUTPUT_DATETIME_FORMAT_BSD = '%a %b %d %H:%M:%S %Z %Y'

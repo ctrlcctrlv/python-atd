@@ -11,7 +11,7 @@
 ################################################################################
 ## Written by Fredrick Brennan <admin@8chan.co>. Expat License - See LICENSE. ##
 ################################################################################
-
+from __future__ import absolute_import
 import sys
 import os
 import pipes
@@ -23,8 +23,8 @@ import re
 import json
 
 # Submodules #
-from atq import AtQueue, AtJob, _validate_queue
-import config
+from atd.atq import AtQueue, AtJob, _validate_queue
+from atd import config
 
 def at(command, when, queue = 'a'):
     """ Execute command at when.
@@ -174,8 +174,8 @@ def convert_datetime(dt):
 def convert_timedelta(td):
     """ Convert a timedelta object to a timespec usable by `at`. Note that
     `at` does not understand seconds, so extra seconds are rounded down. """
-    total_seconds = (td.microseconds / 1000000) + (td.days * 24 * 60 * 60) + \
-        td.seconds
+    total_seconds = int((td.microseconds / 1000000) 
+        + (td.days * 24 * 60 * 60) + td.seconds)
 
     total_minutes = total_seconds // 60
 

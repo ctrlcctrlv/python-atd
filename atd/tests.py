@@ -10,8 +10,8 @@
 # about the setup of your atd and whether atjob creation and cancelation       #
 # is working as expected.                                                      #
 ################################################################################
-
-import atd, atq
+from __future__ import absolute_import
+from atd import atd, atq
 import unittest
 import datetime
 
@@ -28,11 +28,11 @@ class TimeConversionTests(unittest.TestCase):
         td2 = datetime.timedelta(seconds = 120)
         td3 = datetime.timedelta(days = -1)
 
-        self.assertEqual(atd.convert_timedelta(td), 'now + 1.0 minute')
+        self.assertEqual(atd.convert_timedelta(td), 'now + 1 minute')
 
-        self.assertEqual(atd.convert_timedelta(td2), 'now + 2.0 minutes')
+        self.assertEqual(atd.convert_timedelta(td2), 'now + 2 minutes')
 
-        self.assertEqual(atd.convert_timedelta(td3), 'now + -1440.0 minutes')
+        self.assertEqual(atd.convert_timedelta(td3), 'now + -1440 minutes')
 
         print("Success: Timedelta conversion")
 
