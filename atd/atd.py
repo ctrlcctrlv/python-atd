@@ -23,8 +23,8 @@ import re
 import json
 
 # Submodules #
-from atq import AtQueue, AtJob, _validate_queue
-import config
+from atd.atq import AtQueue, AtJob, _validate_queue
+from atd import config
 
 def at(command, when, queue = 'a'):
     """ Execute command at when.

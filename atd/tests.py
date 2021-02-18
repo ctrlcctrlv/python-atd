@@ -11,7 +11,7 @@
 # is working as expected.                                                      #
 ################################################################################
 
-import atd, atq
+from atd import atd, atq
 import unittest
 import datetime
 

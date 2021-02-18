@@ -19,7 +19,7 @@ import json
 import string
 
 # Submodules #
-import config
+from atd import config
 
 AT_OUTPUT_DATETIME_FORMAT = '%a %b %d %H:%M:%S %Y'
 AT_OUTPUT_DATETIME_FORMAT_BSD = '%a %b %d %H:%M:%S %Z %Y'
