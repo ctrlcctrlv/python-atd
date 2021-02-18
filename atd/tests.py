@@ -10,7 +10,7 @@
 # about the setup of your atd and whether atjob creation and cancelation       #
 # is working as expected.                                                      #
 ################################################################################
-
+from __future__ import absolute_import
 from atd import atd, atq
 import unittest
 import datetime

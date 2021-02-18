@@ -11,7 +11,7 @@
 ################################################################################
 ## Written by Fredrick Brennan <admin@8chan.co>. Expat License - See LICENSE. ##
 ################################################################################
-
+from __future__ import absolute_import
 from subprocess import check_output
 import datetime
 import re
