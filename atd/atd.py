@@ -125,21 +125,20 @@ def clear(queue = False):
     if not atjobs: return True # No jobs, queue already clear.
     return atrm(*atjobs)
 
-def _can_read_file(self, filename):
+def _can_read_file(filename):
     """ On many installations, at.allow and at.deny are not readable by non-root
         users. Assure that they are. """
     if not os.access(filename, os.F_OK): # No file there
-        return False
+        raise OSError("No file {0}. Make sure path is right.".format(filename))
 
     if not os.access(filename, os.R_OK): # Can't read file
-        raise OSError('No permission to use {0}. Try the ' +
-        'command `chown 644 {0}` as root.').format(filename)
+        raise OSError("No permission to use {0}. Try the " +
+        "command `chmod 644 {0}` as root.".format(filename))
 
 def _enumerate_users(filename):
     """ Enumerate users in a at.allow or at.deny file, and return them as a
         list() for the user. """
-    if not _can_read_file(filename): # No file there
-            return []
+    _can_read_file(filename)
 
     fd = open(filename, 'r')
     users = fd.readlines()
