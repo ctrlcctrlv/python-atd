@@ -1,16 +1,17 @@
 ################################################################################
-# atd.py - The Unix at scheduler in Python ################## py2k version 0.1 #
+# atd.py - The Unix at scheduler in Python ################ py2/3k version 0.2 #
 ################################################################################
 # `at` is a command line utility, like cron, that schedules commands to be run #
 # at a later time. Unlike cron, whose main purpose is to run a command every n #
-# minutes, the purpose of `at` is to run a command once at a known time.       #
-# This makes `at` ideal for scheduling jobs. Say you want to run a command 6   #
-# hours after an action is taken in your application, with `at` you can. `at`  #
-# also is superior to scheduling daemons that keep jobs in RAM, because it     #
-# writes its jobs to a recoverable spool on the disk.                          #
+# minutes,  the purpose of `at` is to run a command once at a known time. This #
+# makes  `at` ideal for scheduling jobs. Say you want to run a command 6 hours #
+# after  an action is taken in your application, with `at` you can. `at`  also #
+# is  superior to scheduling daemons that keep jobs in RAM, because it  writes #
+# its jobs to a recoverable spool on the disk.                                 #
 ################################################################################
-## Written by Fredrick Brennan <admin@8chan.co>. Expat License - See LICENSE. ##
+##  Written by Fredrick Brennan <copypaste@kittens.ph>. See LICENSE (Expat).  ##
 ################################################################################
+
 from __future__ import absolute_import
 from subprocess import check_output
 import datetime

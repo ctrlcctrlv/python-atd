@@ -5,7 +5,7 @@ import sys
 # Handle platform specific differences between `at`
 if sys.platform == 'win32':
 	raise NotImplementedError('Windows does not support ' +
-	'`at` out of the box. Try cygwin! <https://cygwin.com>')
+	'`at` out of the box. Try cygwin! <https://cygwin.com> or MSYS2.')
 
 if sys.platform.startswith('linux') or \
 sys.platform.startswith('cygwin'):

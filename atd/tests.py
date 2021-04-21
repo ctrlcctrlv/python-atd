@@ -1,15 +1,16 @@
 ################################################################################
-# atd.py - The Unix at scheduler in Python ################## py2k version 0.1 #
-################################################################################
-## Written by Fredrick Brennan <admin@8chan.co>. Expat License - See LICENSE. ##
+# atd.py - The Unix at scheduler in Python ################ py2/3k version 0.2 #
 ################################################################################
 # Unit tests for AtQueue, AtJob, and `at` utilities...                         #
-#                                                                              #
-# It is highly recommended to run the unit tests before using `atd.py` in a    #
-# production environment. The unit tests can give you valuable information     #
-# about the setup of your atd and whether atjob creation and cancelation       #
-# is working as expected.                                                      #
 ################################################################################
+# It  is  highly recommended to run the unit tests before using `atd.py` in  a #
+# production  environment.  The unit tests can give you  valuable  information #
+# about  the  setup of your atd and whether atjob creation and cancelation  is #
+# working as expected.                                                         #
+################################################################################
+##  Written by Fredrick Brennan <copypaste@kittens.ph>. See LICENSE (Expat).  ##
+################################################################################
+
 from __future__ import absolute_import
 from atd import atd, atq
 import unittest
