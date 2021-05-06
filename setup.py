@@ -5,7 +5,7 @@ with io.open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(name='python-atd',
-      version='0.2',
+      version='0.2.1',
       description='Unix `at` scheduler, for Python 3 and Python 2. Supports atq, atd, & atrm',
       keywords='atq atrm atd at',
       long_description=long_description,
