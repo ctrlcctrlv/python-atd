@@ -164,7 +164,7 @@ def convert_datetime(dt):
         From the `at` manual:
         -t      Specify the job time using the POSIX time format.  The
         argument should be in the form [[CC]YY]MMDDhhmm[.SS]. """
-    if dt.year >= 2038 and (2**64 / 2) - 1 != long(sys.maxsize):
+    if dt.year >= 2038 and (2**64 // 2) - 1 <= sys.maxsize:
         raise RuntimeWarning('Year >= 2038 detected on system running 32 bit '+
         'Python. `at` has undefined behavior with years >= 2038. Please make '+
         'sure your system is 64bit, even if your Python binary isn\'t.')
