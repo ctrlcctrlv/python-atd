@@ -174,7 +174,7 @@ def convert_datetime(dt):
 def convert_timedelta(td):
     """ Convert a timedelta object to a timespec usable by `at`. Note that
     `at` does not understand seconds, so extra seconds are rounded down. """
-    total_seconds = int((td.microseconds / 1000000) 
+    total_seconds = int((td.microseconds / 1000000)
         + (td.days * 24 * 60 * 60) + td.seconds)
 
     total_minutes = total_seconds // 60
