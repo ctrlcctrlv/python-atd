@@ -1,5 +1,5 @@
-atd package
-===========
+atd package (v0.2.2)
+====================
 
 at is the companion of cron. While cron says "execute command every 5 minutes",
 at says, "execute command once at exactly 2:00 PM". at is the original Unix
@@ -7,8 +7,18 @@ scheduler.
 
 This Python module aims to support all at operations in a safe way.
 
-After installing with `python setup.py install`, it's recommended to run the
-tests to make sure at is configured properly.
+Installation
+============
+
+```bash
+pip install atd
+```
+
+Tests
+=====
+
+If installing from repository with `python setup.py install`, it's recommended
+to run the tests to make sure at is configured properly.
 
 Supports Python 2 and Python 3.
 
